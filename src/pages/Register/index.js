@@ -1,15 +1,26 @@
 import React from 'react'
 
-import {Input,Button, Form} from 'antd'
+import {Input,Button, Form, message} from 'antd'
 import { Link } from 'react-router-dom'
-
 import Divider from '../../components/Divider'
+const {RegisterUser}=require('../../apiCalls/user') 
 
 function Register() {
-
-  const onFinish=(values)=>{
-    console.log("success:",values)
+  const onFinish=async(values)=>{
+    try {
+      const response=await RegisterUser(values);
+      console.log("RES :",response)
+      if(response.success){
+     
+        message.success(response.message)
+      }else{
+        throw new Error(response.message)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
   }
+
   return (
     <div className="grid grid-cols-2">
   <div className='flex items-center justify-center'>
@@ -37,7 +48,7 @@ function Register() {
         </Form.Item>
         <Button type="primary" htmlType='submit' block>Register</Button>
         <div className='flex justify-center'>
-          <span>Have already an account? <Link to='/login'>Login</Link></span>
+          <span>Have already an account? <Link to='/login'>Sign In</Link></span>
         </div>
 
       </Form>
