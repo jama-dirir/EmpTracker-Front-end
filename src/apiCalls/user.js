@@ -12,9 +12,10 @@ const {apiRequest} =require('.')
 
 const RegisterUser=async(payload)=>apiRequest('post','/api/users/register',payload)
 const LoginUser=async(payload)=>apiRequest('post','/api/users/login',payload)
-
+const GetLoggedInUser=async(payload)=>apiRequest('get','/api/users/logged-in-user',payload)
 
 module.exports={
     RegisterUser,
-    LoginUser
+    LoginUser,
+    GetLoggedInUser
 }

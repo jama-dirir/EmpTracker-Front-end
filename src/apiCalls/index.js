@@ -7,7 +7,7 @@ export const apiRequest= async(method,url,payload)=>{
             url,
             data:payload,
             headers:{
-                Authorization:`Bearer ${localStorage.getItem('token')}`
+                authorization:`Bearer ${localStorage.getItem('token')}`
             }
         })
         return response.data;

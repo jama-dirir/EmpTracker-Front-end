@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import React from 'react'
 
+import { useNavigate } from 'react-router-dom';
 import {Input,Button, Form,message} from 'antd'
 import { Link } from 'react-router-dom'
 
@@ -7,7 +9,7 @@ import Divider from '../../components/Divider'
 const {LoginUser}=require('../../apiCalls/user') 
 
 function Login() {
-
+  const navigate=useNavigate();
   const onFinish=async(values)=>{
     try {
       const response=await LoginUser(values);
@@ -24,17 +26,23 @@ function Login() {
       message.error(error.message)
     }
   }
+
+  useEffect(() => {
+    if(localStorage.getItem('token')){
+        navigate('/')
+    }
+}, [])
+
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-4">
   <div className='flex flex-col items-center justify-center h-screen bg-primary'>
   <h1 className='text-white mt-15'>EMPLOYEE TRACKER</h1>
   <span className='text-white'>Helps to manage your stuff easily.</span>
   </div>
- 
+  <div flex flex-col></div>
   <div className='flex items-center justify-center'>
-
     <div className='w-[450px]' >
-      <h1 className='text-gray-700'>LOGIN YOUR ACCOUNT</h1>
+      <h1 className='text-gray-700'>Log in to your account</h1>
       <Divider/>
       <Form layout='vertical' onFinish={onFinish}>
         <Form.Item label='Email' name='email' >
@@ -49,7 +57,7 @@ function Login() {
         <Button type="primary" htmlType='submit' block>Login</Button>
         <div className='flex justify-center'>
           <span>Don't have an account? <Link to='/register'>Sign Up</Link></span>
-        </div>
+      </div>
 
       </Form>
     </div>
