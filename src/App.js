@@ -3,6 +3,7 @@ import './index.css'
 import Home  from './pages/Home';
 import Login from './pages/Login';
 import Register  from './pages/Register';
+import Profile  from './pages/Profile';
 import {Routes,Route } from 'react-router-dom';
 import ProtectedPage from './components/ProtectedPage';
 
@@ -13,6 +14,11 @@ function App() {
       <Route path='/' element={
       <ProtectedPage>
         <Home/>
+      </ProtectedPage>
+      }></Route>
+       <Route path='/profile' element={
+      <ProtectedPage>
+        <Profile/>
       </ProtectedPage>
       }></Route>
       <Route path='/login' element={<Login/>}></Route>

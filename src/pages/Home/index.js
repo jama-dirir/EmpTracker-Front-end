@@ -1,11 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-function index() {
+
+function  Home() {
+const {user}=useSelector((state)=>state.users)
   return (
     <div>
-      Home
+     {user?.firstName}, Welcome to employee tracker app
     </div>
   )
 }
 
-export default index
+export default Home
