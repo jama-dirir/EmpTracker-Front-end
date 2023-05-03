@@ -9,19 +9,19 @@ import Divider from '../../components/Divider'
 import { passwordValidation } from '../../helper/validations';
 import { emailValidation } from '../../helper/validations';
 import { useDispatch,useSelector } from 'react-redux';
-import { setLoading } from '../../redux/loadersSlice';
+import { setButtonLoading } from '../../redux/loadersSlice';
 const {LoginUser}=require('../../apiCalls/user') 
 
 function Login() {
-  const {loading}=useSelector((state)=>state.loaders)
+  const {buttonLoading}=useSelector((state)=>state.loaders)
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const onFinish=async(values)=>{
     try {
-      dispatch(setLoading(true))
+      dispatch(setButtonLoading(true))
       const response=await LoginUser(values);
       if(response.success){
-        dispatch(setLoading(false))
+        dispatch(setButtonLoading(false))
         console.log('RESPONSE :',response)
         localStorage.setItem('token',response.data)
          message.success(response.message)
@@ -30,7 +30,7 @@ function Login() {
         message.error(response.message)
       }
     } catch (error) {
-      dispatch(setLoading(false))
+      dispatch(setButtonLoading(false))
       message.error(error.message)
     }
   }
@@ -63,7 +63,7 @@ function Login() {
         type='password'
         />
         </Form.Item>
-        <Button type="primary" htmlType='submit' block loading={loading}>Login</Button>
+        <Button type="primary" htmlType='submit' block loading={buttonLoading}>Login</Button>
         <div className='flex justify-center'>
           <span className='my-3'>Don't have an account? <Link to='/register'>Sign Up</Link></span>
       </div>

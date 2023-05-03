@@ -9,15 +9,20 @@ import { passwordValidation } from '../../helper/validations';
 import {Input,Button, Form, message} from 'antd'
 import { Link } from 'react-router-dom'
 import Divider from '../../components/Divider'
-const {RegisterUser}=require('../../apiCalls/user') 
-
+import { setButtonLoading } from '../../redux/loadersSlice';
+import { useDispatch, useSelector } from 'react-redux';
+const {RegisterUser}=require('../../apiCalls/user')
 function Register() {
+  const dispatch=useDispatch() 
+  const {buttonLoading}=useSelector((state)=>state.loaders)
   const navigate=useNavigate();
   const onFinish=async(values)=>{
     try {
+      dispatch(setButtonLoading(true));
       const response=await RegisterUser(values);
       console.log("RES :",response)
       if(response.success){
+        // dispatch(setButtonLoading(false));
         localStorage.setItem('token',response.data)
         message.success(response.message)
         navigate('/login')
@@ -25,6 +30,7 @@ function Register() {
         throw new Error(response.message)
       }
     } catch (error) {
+      dispatch(setButtonLoading(false));
       message.error(error.message)
     }
   }
@@ -60,7 +66,7 @@ function Register() {
         type='password'
         />
         </Form.Item>
-        <Button type="primary" htmlType='submit' block>Register</Button>
+        <Button type="primary" htmlType='submit' block  loading={buttonLoading}>Register</Button>
         <div className='flex justify-center my-3'>
           <span>Have already an account? <Link to='/login'>Sign In</Link></span>
         </div>

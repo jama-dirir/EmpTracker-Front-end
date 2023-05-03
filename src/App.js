@@ -6,10 +6,13 @@ import Register  from './pages/Register';
 import Profile  from './pages/Profile';
 import {Routes,Route } from 'react-router-dom';
 import ProtectedPage from './components/ProtectedPage';
-
+import Spinner from './components/Spinner';
+import { useSelector } from 'react-redux';
 function App() {
+const {loading}=useSelector((state)=>state.loaders)
   return (
-    <>
+    <div>
+     {loading && <Spinner/>}
     <Routes>
       <Route path='/' element={
       <ProtectedPage>
@@ -24,9 +27,7 @@ function App() {
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
     </Routes>
-
-
-    </>
+    </div>
   );
 }
 

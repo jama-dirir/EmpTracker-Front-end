@@ -6,6 +6,7 @@ import { message } from 'antd'
 
 import {GetLoggedInUser} from '../apiCalls/user';
 import { setUser } from '../redux/userSlice';
+import { setLoading } from '../redux/loadersSlice';
 import { useDispatch,useSelector } from 'react-redux';
 function ProtectedPage({children}) {
     const {user}=useSelector((state)=>state.users);
@@ -14,13 +15,17 @@ function ProtectedPage({children}) {
     
     const getUser=async()=>{
         try {
+           
+            dispatch(setLoading(true))
             const response=await GetLoggedInUser();
             if(response.success){
                 dispatch(setUser(response.data))
+                dispatch(setLoading(false))
             }else{
                 throw new Error(response.message)
             }
         } catch (error) {
+            dispatch(setLoading(false))
             message.error(error.message);
             localStorage.removeItem('token');
             navigate('/login')
@@ -37,7 +42,7 @@ function ProtectedPage({children}) {
     }, [])
 
   return (
-    <div>
+   user && <div>
     <div className="flex items-center justify-between p-5 text-white bg-green-900">
         <h1 className="text-3xl font-black cursor-pointer" onClick={()=>{
             navigate('/')
